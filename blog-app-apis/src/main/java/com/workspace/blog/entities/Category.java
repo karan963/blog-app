@@ -1,8 +1,5 @@
 package com.workspace.blog.entities;
 
-import com.workspace.blog.payloads.UserDto;
-
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,19 +11,16 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="users")
+@Table(name="Categories")
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class Category {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	private int id;
-	@Column(name="user_name", nullable=false, length=100)
-	private String name;
-	
-	private String email;
-	private String password;
-	private String about;
-	
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	private Integer categoryId;
+	@Column(name="title",length=100,nullable=false)
+	private String categoryTitle;
+	@Column(name="description")
+	private String categoryDescription;
 }
