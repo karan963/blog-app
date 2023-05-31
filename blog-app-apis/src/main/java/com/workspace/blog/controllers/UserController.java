@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.workspace.blog.exceptions.UserAlreadyExistException;
 import com.workspace.blog.payloads.ApiResponse;
 import com.workspace.blog.payloads.UserDto;
+import com.workspace.blog.repositories.UserRepo;
 import com.workspace.blog.service.UserService;
 
 import jakarta.validation.Valid;
@@ -24,12 +26,23 @@ import jakarta.validation.Valid;
 public class UserController {
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private UserRepo userRepo;
 	
 	//Post(create users)
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto){
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) throws IllegalArgumentException{
+		
+//		if(this.userRepo.equals(userDto)) {
+//	        throw new UserAlreadyExistException("User with given username already exist");
+//		}
+//	    else {
+//	    	UserDto createUserDto = this.userService.createUser(userDto);
+//	    	return new ResponseEntity<UserDto>(createUserDto, HttpStatus.CREATED);
+//	    }
+		
 		UserDto createUserDto = this.userService.createUser(userDto);
-		return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
+		return new ResponseEntity<UserDto>(createUserDto, HttpStatus.CREATED);
 	}
 	//Put (Update users or add users)
 	@PutMapping("/{userId}")

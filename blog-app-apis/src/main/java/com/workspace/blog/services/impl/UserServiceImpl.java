@@ -1,17 +1,21 @@
 package com.workspace.blog.services.impl;
 
 import java.util.List;
+
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import com.workspace.blog.entities.User;
+import com.workspace.blog.payloads.ApiResponse;
 import com.workspace.blog.payloads.UserDto;
 import com.workspace.blog.repositories.UserRepo;
 import com.workspace.blog.service.UserService;
 import com.workspace.blog.exceptions.ResourceNotFoundException;
+import com.workspace.blog.exceptions.UserAlreadyExistException;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -25,6 +29,14 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user = this.dtoToUser(userDto);
+//		User SavedUser =null;
+//		if(this.userRepo.equals(userDto.)) {
+//	        throw new UserAlreadyExistException("User with given username already exist");
+//		}
+//	    else {
+//	    	User SavedUser = this.userRepo.save(user);
+//	    	return this.userToDto(SavedUser);
+//	    }
 		User SavedUser = this.userRepo.save(user);
 		return this.userToDto(SavedUser);
 	}

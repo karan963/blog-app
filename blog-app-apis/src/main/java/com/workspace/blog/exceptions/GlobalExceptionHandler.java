@@ -37,4 +37,10 @@ public class GlobalExceptionHandler {
 		ApiResponse apiResponse=new ApiResponse(message,false);
 		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(IllegalArgumentException.class)
+	public ResponseEntity<ApiResponse> handleIllegalArgumentException(IllegalArgumentException ex){
+		String message=ex.getLocalizedMessage();
+		ApiResponse apiResponse=new ApiResponse(message,false);
+		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+	}
 }
