@@ -1,7 +1,9 @@
 package com.workspace.blog.entities;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import com.workspace.blog.payloads.UserDto;
 
@@ -35,4 +37,7 @@ public class User {
 	private String about;
 	@OneToMany(mappedBy="user",cascade=CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<Post> posts=new ArrayList<>();
+	
+	@OneToMany(mappedBy="user",cascade = CascadeType.ALL)
+	private Set<Comment> comments=new HashSet<>();
 }

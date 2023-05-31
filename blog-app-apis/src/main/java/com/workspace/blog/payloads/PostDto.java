@@ -3,7 +3,6 @@ package com.workspace.blog.payloads;
 import java.sql.Date;
 import java.util.Set;
 import java.util.HashSet;
-import com.workspace.blog.entities.Comment;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,5 +17,5 @@ public class PostDto {
 	
 	private CategoryDto category;
 	private UserDto user;
-	private Set<Comment> comments=new HashSet<>();
+	private Set<CommentDto> comments=new HashSet<>();
 }
