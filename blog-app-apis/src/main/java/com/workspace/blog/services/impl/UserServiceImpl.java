@@ -109,4 +109,9 @@ public class UserServiceImpl implements UserService {
 		return userDto;
 	}
 
+	@Override
+	public UserDto doesUserExist(String email) {
+		return this.userRepo.findByEmail(email);
+	}
+
 }

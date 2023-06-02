@@ -2,7 +2,6 @@ package com.workspace.blog.services.impl;
 
 
 import java.util.List;
-
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.Date;
@@ -14,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import com.workspace.blog.entities.Category;
 import com.workspace.blog.entities.Post;
@@ -42,11 +42,11 @@ public class PostServiceImpl implements PostService{
 	private CategoryRepo categoryRepo;
 	
 	@Override
-	public PostDto createPost(PostDto postDto,Integer userId,Integer categoryId) {
+	public PostDto createPost(@ModelAttribute PostDto postDto,Integer userId,Integer categoryId) {
 		User user=this.userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User", "User id",userId));
 		Category category=this.categoryRepo.findById(categoryId).orElseThrow(()->new ResourceNotFoundException("Category", "Category id",categoryId));
 		Post post=this.modelMapper.map(postDto, Post.class);
-		post.setImageName("default.png");
+//		post.setImageName(postDto.getImageName());
 		Date date = new Date();
 		post.setAddedDate(date);
 		post.setUser(user);
@@ -56,11 +56,11 @@ public class PostServiceImpl implements PostService{
 	}
 
 	@Override
-	public PostDto updatePost(PostDto postDto, Integer PostId) {
+	public PostDto updatePost(@ModelAttribute PostDto postDto, Integer PostId) {
 		Post post =this.postRepo.findById(PostId).orElseThrow(()->new ResourceNotFoundException("Post", "Post id",PostId));
 		post.setTitle(postDto.getTitle());
 		post.setContent(postDto.getContent());
-		post.setImageName(postDto.getImageName());
+//		post.setImageName(postDto.getImageName());
 		Post updatedPost=this.postRepo.save(post);
 		return this.modelMapper.map(updatedPost, PostDto.class);
 	}

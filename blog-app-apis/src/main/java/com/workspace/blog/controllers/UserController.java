@@ -31,14 +31,14 @@ public class UserController {
 	
 	//Post(create users)
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) throws IllegalArgumentException{
-		
-//		if(this.userRepo.equals(userDto)) {
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto,String email) throws UserAlreadyExistException{
+//		UserDto createUserDto=null;
+//		if(this.this.userService.doesUserExist(userDto.getEmail())) {
 //	        throw new UserAlreadyExistException("User with given username already exist");
 //		}
 //	    else {
-//	    	UserDto createUserDto = this.userService.createUser(userDto);
-//	    	return new ResponseEntity<UserDto>(createUserDto, HttpStatus.CREATED);
+//	    	createUserDto = this.userService.createUser(userDto);
+////	    	return new ResponseEntity<UserDto>(createUserDto, HttpStatus.CREATED);
 //	    }
 		
 		UserDto createUserDto = this.userService.createUser(userDto);

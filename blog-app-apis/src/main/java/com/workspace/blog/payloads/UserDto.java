@@ -1,8 +1,12 @@
 package com.workspace.blog.payloads;
 
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import com.workspace.blog.entities.Image;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

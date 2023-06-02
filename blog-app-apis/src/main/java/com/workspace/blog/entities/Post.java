@@ -1,8 +1,12 @@
 package com.workspace.blog.entities;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -31,7 +35,7 @@ public class Post {
 	private String title;
 	@Column(length=100)
 	private String content;
-	private String imageName;
+//	private String imageName;
 	private Date addedDate;
 	@ManyToOne
 	@JoinColumn(name="category_id")
@@ -41,4 +45,7 @@ public class Post {
 	
 	@OneToMany(mappedBy="post",cascade = CascadeType.ALL)
 	private Set<Comment> comments=new HashSet<>();
+	
+	@OneToMany(mappedBy="post",cascade = CascadeType.ALL)
+	private List<Image> image=new ArrayList<>();
 }
