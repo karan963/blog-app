@@ -9,5 +9,6 @@ import com.workspace.blog.entities.User;
 import com.workspace.blog.payloads.UserDto;
 
 public interface UserRepo extends JpaRepository<User, Integer>{
-	UserDto findByEmail(String email);
+//	UserDto findByEmail(String email);
+	Optional<User> findByEmail(String email);
 }

@@ -8,6 +8,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.workspace.blog.entities.User;
 import com.workspace.blog.payloads.ApiResponse;
@@ -25,10 +26,14 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user = this.dtoToUser(userDto);
+		user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 //		User SavedUser =null;
 //		if(this.userRepo.equals(userDto.)) {
 //	        throw new UserAlreadyExistException("User with given username already exist");
@@ -107,11 +112,6 @@ public class UserServiceImpl implements UserService {
 	public UserDto userToDto(User user) {
 		UserDto userDto = this.modelMapper.map(user, UserDto.class);
 		return userDto;
-	}
-
-	@Override
-	public UserDto doesUserExist(String email) {
-		return this.userRepo.findByEmail(email);
 	}
 
 }

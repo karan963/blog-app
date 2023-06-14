@@ -10,5 +10,5 @@ public interface UserService {
 	UserDto getUserById(Integer userId);
 	List<UserDto> getAllUser();
 	void deleteUser(Integer userId);
-	UserDto doesUserExist(String email);
+//	UserDto doesUserExist(String email);
 }

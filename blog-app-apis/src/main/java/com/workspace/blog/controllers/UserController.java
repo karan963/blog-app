@@ -31,7 +31,7 @@ public class UserController {
 	
 	//Post(create users)
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto,String email) throws UserAlreadyExistException{
+	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) throws UserAlreadyExistException{
 //		UserDto createUserDto=null;
 //		if(this.this.userService.doesUserExist(userDto.getEmail())) {
 //	        throw new UserAlreadyExistException("User with given username already exist");
