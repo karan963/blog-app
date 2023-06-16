@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user = this.dtoToUser(userDto);
-		user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
+//		user.setPassword(this.passwordEncoder.encode(userDto.getPassword()));
 //		User SavedUser =null;
 //		if(this.userRepo.equals(userDto.)) {
 //	        throw new UserAlreadyExistException("User with given username already exist");
