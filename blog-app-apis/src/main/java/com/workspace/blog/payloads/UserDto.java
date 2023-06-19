@@ -7,11 +7,12 @@ import java.util.List;
 import java.util.Set;
 
 import com.workspace.blog.entities.Image;
+import com.workspace.blog.entities.Role;
 
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -33,6 +34,7 @@ public class UserDto {
 	@NotEmpty
 	private String about;
 	
+	private Set<RoleDto> roles = new HashSet<>();
 //	private Set<CommentDto> comments=new HashSet<>();//error bad credentials is comming
 	
 }

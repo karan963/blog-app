@@ -1,10 +1,12 @@
 package com.workspace.blog.controllers;
 
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +22,7 @@ import com.workspace.blog.payloads.UserDto;
 import com.workspace.blog.repositories.UserRepo;
 import com.workspace.blog.service.UserService;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/users")
@@ -32,7 +34,7 @@ public class UserController {
 	
 	//Post(create users)
 	@PostMapping("/")
-	public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto userDto) throws UserAlreadyExistException{
+	public ResponseEntity<UserDto> createUser(@Validated @RequestBody UserDto userDto) throws UserAlreadyExistException{
 //		UserDto createUserDto=null;
 //		if(this.this.userService.doesUserExist(userDto.getEmail())) {
 //	        throw new UserAlreadyExistException("User with given username already exist");
@@ -47,7 +49,7 @@ public class UserController {
 	}
 	//Put (Update users or add users)
 	@PutMapping("/{userId}")
-	public ResponseEntity<UserDto> updateUser(@Valid @RequestBody UserDto userDto,@PathVariable Integer userId){
+	public ResponseEntity<UserDto> updateUser(@Validated @RequestBody UserDto userDto,@PathVariable Integer userId){
 		UserDto updatedUser= this.userService.updateUser(userDto,userId);
 		return ResponseEntity.ok(updatedUser);
 	}

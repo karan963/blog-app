@@ -1,10 +1,10 @@
 package com.workspace.blog.controllers;
 
 import java.io.IOException;
-
-
 import java.io.InputStream;
 import java.nio.file.FileAlreadyExistsException;
+
+import javax.servlet.http.HttpServletResponse;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,6 @@ import com.workspace.blog.payloads.ImageDto;
 import com.workspace.blog.payloads.PostDto;
 import com.workspace.blog.service.FileService;
 import com.workspace.blog.service.PostService;
-
-import jakarta.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping("/api/")

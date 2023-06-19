@@ -1,7 +1,7 @@
 package com.workspace.blog.services.impl;
 
 import java.util.List;
-
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -10,9 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.workspace.blog.config.AppConstants;
+import com.workspace.blog.entities.Role;
 import com.workspace.blog.entities.User;
 import com.workspace.blog.payloads.ApiResponse;
 import com.workspace.blog.payloads.UserDto;
+import com.workspace.blog.repositories.RoleRepo;
 import com.workspace.blog.repositories.UserRepo;
 import com.workspace.blog.service.UserService;
 import com.workspace.blog.exceptions.ResourceNotFoundException;
@@ -29,6 +33,9 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private RoleRepo roleRepo;
 	
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -112,6 +119,18 @@ public class UserServiceImpl implements UserService {
 	public UserDto userToDto(User user) {
 		UserDto userDto = this.modelMapper.map(user, UserDto.class);
 		return userDto;
+	}
+
+	@Override
+	public UserDto registerNewUser(UserDto userDto) {
+		User user = this.modelMapper.map(userDto, User.class);
+		//encoded the password
+		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
+		//roles
+		Role role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
+		user.getRoles().add(role);
+		User newUser = this.userRepo.save(user);
+		return this.modelMapper.map(newUser, UserDto.class);
 	}
 
 }
