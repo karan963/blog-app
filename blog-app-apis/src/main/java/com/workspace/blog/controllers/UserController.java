@@ -1,6 +1,7 @@
 package com.workspace.blog.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.workspace.blog.entities.User;
 import com.workspace.blog.exceptions.UserAlreadyExistException;
 import com.workspace.blog.payloads.ApiResponse;
 import com.workspace.blog.payloads.UserDto;
@@ -35,17 +37,9 @@ public class UserController {
 	//Post(create users)
 	@PostMapping("/")
 	public ResponseEntity<UserDto> createUser(@Validated @RequestBody UserDto userDto) throws UserAlreadyExistException{
-//		UserDto createUserDto=null;
-//		if(this.this.userService.doesUserExist(userDto.getEmail())) {
-//	        throw new UserAlreadyExistException("User with given username already exist");
-//		}
-//	    else {
-//	    	createUserDto = this.userService.createUser(userDto);
-////	    	return new ResponseEntity<UserDto>(createUserDto, HttpStatus.CREATED);
-//	    }
-		
 		UserDto createUserDto = this.userService.createUser(userDto);
 		return new ResponseEntity<UserDto>(createUserDto, HttpStatus.CREATED);
+		
 	}
 	//Put (Update users or add users)
 	@PutMapping("/{userId}")

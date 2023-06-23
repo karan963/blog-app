@@ -10,7 +10,6 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-
 import com.workspace.blog.payloads.ApiResponse;
 
 @RestControllerAdvice
@@ -45,6 +44,18 @@ public class GlobalExceptionHandler {
 	}
 	@ExceptionHandler(ApiException.class)
 	public ResponseEntity<ApiResponse> handleApiException(ApiException ex){
+		String message=ex.getLocalizedMessage();
+		ApiResponse apiResponse=new ApiResponse(message,false);
+		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(UserAlreadyExistException.class)
+	public ResponseEntity<ApiResponse> handleUserAlreadyExistsException(UserAlreadyExistException ex){
+		String message=ex.getLocalizedMessage();
+		ApiResponse apiResponse=new ApiResponse(message,false);
+		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(NonUniqueResultException.class)
+	public ResponseEntity<ApiResponse> handleNonUniqueResultException(NonUniqueResultException ex){
 		String message=ex.getLocalizedMessage();
 		ApiResponse apiResponse=new ApiResponse(message,false);
 		return new ResponseEntity<ApiResponse>(apiResponse,HttpStatus.BAD_REQUEST);

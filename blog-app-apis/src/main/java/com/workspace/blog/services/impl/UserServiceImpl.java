@@ -6,19 +6,20 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.workspace.blog.config.AppConstants;
 import com.workspace.blog.entities.Role;
 import com.workspace.blog.entities.User;
-import com.workspace.blog.payloads.ApiResponse;
 import com.workspace.blog.payloads.UserDto;
 import com.workspace.blog.repositories.RoleRepo;
 import com.workspace.blog.repositories.UserRepo;
+import com.workspace.blog.security.CustomUserDetailService;
 import com.workspace.blog.service.UserService;
+import com.workspace.blog.exceptions.NonUniqueResultException;
 import com.workspace.blog.exceptions.ResourceNotFoundException;
 import com.workspace.blog.exceptions.UserAlreadyExistException;
 
@@ -30,13 +31,14 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private ModelMapper modelMapper;
-	
+
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	private RoleRepo roleRepo;
 	
+
 	@Override
 	public UserDto createUser(UserDto userDto) {
 		User user = this.dtoToUser(userDto);
@@ -87,6 +89,7 @@ public class UserServiceImpl implements UserService {
 	public void deleteUser(Integer userId) {
 		User user = this.userRepo.findById(userId)
 				.orElseThrow(() -> new ResourceNotFoundException("User", "Id", userId));
+		user.getRoles().clear();
 		this.userRepo.delete(user);
 
 	}
@@ -111,11 +114,13 @@ public class UserServiceImpl implements UserService {
 //		return userDto;
 //	}
 
-	// adding data of one object or class to another object or class using ModelMapper
+	// adding data of one object or class to another object or class using
+	// ModelMapper
 	public User dtoToUser(UserDto userDto) {
 		User user = this.modelMapper.map(userDto, User.class);
 		return user;
 	}
+
 	public UserDto userToDto(User user) {
 		UserDto userDto = this.modelMapper.map(user, UserDto.class);
 		return userDto;
@@ -124,13 +129,25 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserDto registerNewUser(UserDto userDto) {
 		User user = this.modelMapper.map(userDto, User.class);
-		//encoded the password
+		// encoded the password
 		user.setPassword(this.passwordEncoder.encode(user.getPassword()));
-		//roles
+		// roles
 		Role role = this.roleRepo.findById(AppConstants.NORMAL_USER).get();
 		user.getRoles().add(role);
+		User existingUser = this.findUserByEmail(userDto.getEmail());
+		if(existingUser != null) {
+			System.out.println("Hii I am Running");
+			throw new UserAlreadyExistException("There is already an account registered with the same email");
+//			throw new NonUniqueResultException("User Already exists");
+		}
 		User newUser = this.userRepo.save(user);
 		return this.modelMapper.map(newUser, UserDto.class);
+	}
+
+	@Override
+	public User findUserByEmail(String email) {
+		Optional<User> findByEmail = userRepo.findByEmail(email);
+		return this.modelMapper.map(findByEmail, User.class);
 	}
 
 }

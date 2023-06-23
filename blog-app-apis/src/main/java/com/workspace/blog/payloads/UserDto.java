@@ -35,6 +35,7 @@ public class UserDto {
 	private String about;
 	
 	private Set<RoleDto> roles = new HashSet<>();
+	
 //	private Set<CommentDto> comments=new HashSet<>();//error bad credentials is comming
 	
 }
