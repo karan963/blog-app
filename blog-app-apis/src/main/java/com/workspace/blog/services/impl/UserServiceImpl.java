@@ -137,8 +137,7 @@ public class UserServiceImpl implements UserService {
 		User existingUser = this.findUserByEmail(userDto.getEmail());
 		if(existingUser != null) {
 			System.out.println("Hii I am Running");
-			throw new UserAlreadyExistException("There is already an account registered with the same email");
-//			throw new NonUniqueResultException("User Already exists");
+			throw new NonUniqueResultException("User Already exists");
 		}
 		User newUser = this.userRepo.save(user);
 		return this.modelMapper.map(newUser, UserDto.class);
