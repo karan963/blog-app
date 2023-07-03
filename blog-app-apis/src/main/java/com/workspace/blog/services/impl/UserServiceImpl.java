@@ -1,6 +1,7 @@
 package com.workspace.blog.services.impl;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,6 +29,8 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserRepo userRepo;
+	@Autowired
+	private CustomUserDetailService customUserDetailService;
 
 	@Autowired
 	private ModelMapper modelMapper;
@@ -38,6 +41,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private RoleRepo roleRepo;
 	
+	private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    private static final int PASSWORD_LENGTH = 6;
 
 	@Override
 	public UserDto createUser(UserDto userDto) {
@@ -147,6 +152,18 @@ public class UserServiceImpl implements UserService {
 	public User findUserByEmail(String email) {
 		Optional<User> findByEmail = userRepo.findByEmail(email);
 		return this.modelMapper.map(findByEmail, User.class);
+	}
+
+	@Override
+	public boolean resetPassword(String email,String password) {
+		User user = (User) this.customUserDetailService.loadUserByUsername(email);
+        if (user != null) {
+//            String newPassword = generateNewPassword();
+            user.setPassword(this.passwordEncoder.encode(password));
+            userRepo.save(user);
+            return true;
+        }
+		return false;
 	}
 
 }

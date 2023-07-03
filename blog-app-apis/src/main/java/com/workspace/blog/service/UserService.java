@@ -12,4 +12,5 @@ public interface UserService {
 	List<UserDto> getAllUser();
 	void deleteUser(Integer userId);
 	User findUserByEmail(String email);
+	boolean resetPassword(String email,String password);
 }
