@@ -2,6 +2,8 @@ package com.workspace.blog;
 
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -10,7 +12,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.twilio.Twilio;
 import com.workspace.blog.config.AppConstants;
+import com.workspace.blog.config.SmsConfig;
 import com.workspace.blog.entities.Role;
 import com.workspace.blog.repositories.RoleRepo;
 
@@ -27,6 +31,14 @@ public class BlogAppApisApplication implements CommandLineRunner {
 	
 	@Autowired
 	private RoleRepo roleRepo;
+	
+	@Autowired
+	private SmsConfig smsConfig;
+	
+	@PostConstruct
+	public void onitTwilio() {
+		Twilio.init(smsConfig.getAccountSid(), smsConfig.getAuthToken());
+	}
 	
 	public static void main(String[] args) {
 		SpringApplication.run(BlogAppApisApplication.class, args);
